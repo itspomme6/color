@@ -1,0 +1,673 @@
+<!-- 完整可运行 HTML 代码 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可莉秀染发配方色卡集</title>
+    <style>
+        :root {
+            --header-bg: #f8e8f0;
+            --text-primary: #333;
+            --text-secondary: #666;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            padding-bottom: 50px;
+        }
+        
+        .header {
+            height: 100px;
+            background: var(--header-bg);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .color-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        
+        .color-item {
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: white;
+        }
+        
+        .color-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .color-header:hover {
+            background: #f5f5f5;
+        }
+        
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+        }
+        
+        .color-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex-grow: 1;
+        }
+        
+        .toggle-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        
+        .color-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        
+        /* 使用纯CSS实现折叠展开 */
+        .color-toggle {
+            display: none;
+        }
+        
+        .color-toggle:checked + .color-header + .color-content {
+            max-height: 1000px;
+            padding: 15px;
+        }
+        
+        .color-toggle:checked + .color-header .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .color-base {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .formula-item {
+            margin-bottom: 12px;
+        }
+        
+        .formula-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .formula-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .ratio-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .ratio-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* 各色卡自定义颜色 */
+        .swatch-rose-gold {
+            background: linear-gradient(45deg, #f7cac9, #f7786b);
+        }
+        
+        .swatch-green-ash {
+            background: linear-gradient(45deg, #b5ead7, #8ac4a5);
+        }
+        
+        .swatch-gray-green {
+            background: linear-gradient(45deg, #a8b6b9, #7395ae);
+        }
+        
+        .swatch-milk-tea-gray {
+            background: linear-gradient(45deg, #d4b483, #b2986d);
+        }
+        
+        .swatch-black-brown {
+            background: linear-gradient(45deg, #3d3d3d, #5a5a5a);
+        }
+        
+        .swatch-black-tea-gray {
+            background: linear-gradient(45deg, #4a4e4d, #3b3b3b);
+        }
+        
+        .swatch-milk-tea-cold {
+            background: linear-gradient(45deg, #d4b483, #a8b6b9);
+        }
+        
+        .swatch-pink-brown {
+            background: linear-gradient(45deg, #e8a1a1, #c67f7f);
+        }
+        
+        .swatch-pink-brown-2 {
+            background: linear-gradient(45deg, #f7cac9, #e8a1b4);
+        }
+        
+        .swatch-cover-white {
+            background: linear-gradient(45deg, #b5a597, #8b7d70);
+        }
+        
+        .swatch-cold-brown {
+            background: linear-gradient(45deg, #a8b6b9, #6b8c9e);
+        }
+        
+        .swatch-grapefruit {
+            background: linear-gradient(45deg, #ff9a8b, #ff6b6b);
+        }
+        
+        .swatch-brown-green {
+            background: linear-gradient(45deg, #8b7d70, #6b8c9e);
+        }
+        
+        /* 比例条颜色 */
+        .fill-rose-gold {
+            background: linear-gradient(90deg, #f7cac9, #f7786b);
+        }
+        
+        .fill-green-ash {
+            background: linear-gradient(90deg, #b5ead7, #8ac4a5);
+        }
+        
+        .fill-gray-green {
+            background: linear-gradient(90deg, #a8b6b9, #7395ae);
+        }
+        
+        .fill-milk-tea-gray {
+            background: linear-gradient(90deg, #d4b483, #b2986d);
+        }
+        
+        .fill-black-brown {
+            background: linear-gradient(90deg, #3d3d3d, #5a5a5a);
+        }
+        
+        .fill-black-tea-gray {
+            background: linear-gradient(90deg, #4a4e4d, #3b3b3b);
+        }
+        
+        .fill-milk-tea-cold {
+            background: linear-gradient(90deg, #d4b483, #a8b6b9);
+        }
+        
+        .fill-pink-brown {
+            background: linear-gradient(90deg, #e8a1a1, #c67f7f);
+        }
+        
+        .fill-pink-brown-2 {
+            background: linear-gradient(90deg, #f7cac9, #e8a1b4);
+        }
+        
+        .fill-cover-white {
+            background: linear-gradient(90deg, #b5a597, #8b7d70);
+        }
+        
+        .fill-cold-brown {
+            background: linear-gradient(90deg, #a8b6b9, #6b8c9e);
+        }
+        
+        .fill-grapefruit {
+            background: linear-gradient(90deg, #ff9a8b, #ff6b6b);
+        }
+        
+        .fill-brown-green {
+            background: linear-gradient(90deg, #8b7d70, #6b8c9e);
+        }
+        
+        @media (max-width: 480px) {
+            .color-swatch {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .color-name {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>可莉秀染发配方色卡集</h1>
+    </div>
+    
+    <div class="color-container">
+        <!-- 玫瑰粉金 -->
+        <div class="color-item">
+            <input type="checkbox" id="rose-gold" class="color-toggle">
+            <label for="rose-gold" class="color-header">
+                <div class="color-swatch swatch-rose-gold"></div>
+                <div class="color-name">玫瑰粉金</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质：漂到7度</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">配方比例</div>
+                    <div class="formula-desc">6/11 + 5/75 + 8/43 + 0/45 + 3% + 护发素</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-rose-gold" style="width: 75%"></div>
+                    </div>
+                    <div class="formula-desc">30:40:5:10:40+120</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 闷青亚麻色 -->
+        <div class="color-item">
+            <input type="checkbox" id="green-ash" class="color-toggle">
+            <label for="green-ash" class="color-header">
+                <div class="color-swatch swatch-green-ash"></div>
+                <div class="color-name">闷青亚麻色</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质：细软，两段色（发根黑，下面5度棕）</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发根配方</div>
+                    <div class="formula-desc">0/00 + 0/88 + 0/22 + 9%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-green-ash" style="width: 80%"></div>
+                    </div>
+                    <div class="formula-desc">80:5:5+85</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发中配方</div>
+                    <div class="formula-desc">0/00 + 0/11 + 0/88 + 0/22 + 12%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-green-ash" style="width: 85%"></div>
+                    </div>
+                    <div class="formula-desc">170（两支）:20:10:10+210</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 青灰色 -->
+        <div class="color-item">
+            <input type="checkbox" id="gray-green" class="color-toggle">
+            <label for="gray-green" class="color-header">
+                <div class="color-swatch swatch-gray-green"></div>
+                <div class="color-name">青灰色</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质要求：漂1-2遍</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">配方比例</div>
+                    <div class="formula-desc">7/77 + 8/11 + 0/22 + 0/88 + 0/00 + 3%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-gray-green" style="width: 70%"></div>
+                    </div>
+                    <div class="formula-desc">70:70:5:5:10+160</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 奶茶灰棕 -->
+        <div class="color-item">
+            <input type="checkbox" id="milk-tea-gray" class="color-toggle">
+            <label for="milk-tea-gray" class="color-header">
+                <div class="color-swatch swatch-milk-tea-gray"></div>
+                <div class="color-name">奶茶灰棕（偏棕色）</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质要求：漂1-2遍</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">配方比例</div>
+                    <div class="formula-desc">7/77 + 8/11 + 0/88 + 0/66 + 0/00 + 护发素 + 3%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-milk-tea-gray" style="width: 65%"></div>
+                    </div>
+                    <div class="formula-desc">70:70:（5～7）:5:10:70:+60（刚开始跑青灰，后面跑奶茶棕）</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 黑棕色 -->
+        <div class="color-item">
+            <input type="checkbox" id="black-brown" class="color-toggle">
+            <label for="black-brown" class="color-header">
+                <div class="color-swatch swatch-black-brown"></div>
+                <div class="color-name">黑棕色</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">很黑，阳光下一点颜色</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">配方比例</div>
+                    <div class="formula-desc">4/77 + 4/0 + 6%（一步刷）</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-black-brown" style="width: 95%"></div>
+                    </div>
+                    <div class="formula-desc">100:5+105</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 黑茶青灰色 -->
+        <div class="color-item">
+            <input type="checkbox" id="black-tea-gray" class="color-toggle">
+            <label for="black-tea-gray" class="color-header">
+                <div class="color-swatch swatch-black-tea-gray"></div>
+                <div class="color-name">黑茶青灰色（680年卡）</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质要求：细软</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发根配方</div>
+                    <div class="formula-desc">6/11 + jma + 0/22 + 6%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-black-tea-gray" style="width: 80%"></div>
+                    </div>
+                    <div class="formula-desc">80:10:5+95</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发梢配方</div>
+                    <div class="formula-desc">8/11 + jma + 0/22 + 6%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-black-tea-gray" style="width: 80%"></div>
+                    </div>
+                    <div class="formula-desc">80:10:5</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 奶茶冷棕色 -->
+        <div class="color-item">
+            <input type="checkbox" id="milk-tea-cold" class="color-toggle">
+            <label for="milk-tea-cold" class="color-header">
+                <div class="color-swatch swatch-milk-tea-cold"></div>
+                <div class="color-name">奶茶冷棕色（不偏青）</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">头发软是亚麻色，偏亮</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发根配方</div>
+                    <div class="formula-desc">6/11 + 0/22 + jma + 6% + 9%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-milk-tea-cold" style="width: 80%"></div>
+                    </div>
+                    <div class="formula-desc">80:5:5+45+45</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发梢配方</div>
+                    <div class="formula-desc">0/00 + 8/11 + 0/22 + jma + 8/43 + 12%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-milk-tea-cold" style="width: 85%"></div>
+                    </div>
+                    <div class="formula-desc">160+20+5+10+5+200</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 粉棕色 -->
+        <div class="color-item">
+            <input type="checkbox" id="pink-brown" class="color-toggle">
+            <label for="pink-brown" class="color-header">
+                <div class="color-swatch swatch-pink-brown"></div>
+                <div class="color-name">粉棕色</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">3cm新生发，下面5.5度棕色</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发根配方</div>
+                    <div class="formula-desc">13-55 + 8/45 + 6% + 9%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-pink-brown" style="width: 80%"></div>
+                    </div>
+                    <div class="formula-desc">80+10+45+45</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发梢配方</div>
+                    <div class="formula-desc">7/75 + 13-55 + 0/00 + 8/45 + 0/66 + 12%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-pink-brown" style="width: 75%"></div>
+                    </div>
+                    <div class="formula-desc">60:60:60:30:5+175</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 粉棕 -->
+        <div class="color-item">
+            <input type="checkbox" id="pink-brown-2" class="color-toggle">
+            <label for="pink-brown-2" class="color-header">
+                <div class="color-swatch swatch-pink-brown-2"></div>
+                <div class="color-name">粉棕</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">正常或者细软，粗硬的加0/00</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">配方比例</div>
+                    <div class="formula-desc">13/55（or13-58）+ 0/45 + 0/66 + 0/00（粗硬的加）+12%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-pink-brown-2" style="width: 75%"></div>
+                    </div>
+                    <div class="formula-desc">100:15:6:10+141</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 盖白发 -->
+        <div class="color-item">
+            <input type="checkbox" id="cover-white" class="color-toggle">
+            <label for="cover-white" class="color-header">
+                <div class="color-swatch swatch-cover-white"></div>
+                <div class="color-name">盖白发</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">多种盖白发方案</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">思路❶</div>
+                    <div class="formula-desc">发根：目标色 + 3/0 + 9%（12%）</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-cover-white" style="width: 90%"></div>
+                    </div>
+                    <div class="formula-desc">160（两支）:（15-17）+175</div>
+                    <div class="formula-desc">发梢：如果5度以上可加少量8/43或者45</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">思路❷</div>
+                    <div class="formula-desc">4/77具有盖白发能力</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-cover-white" style="width: 50%"></div>
+                    </div>
+                    <div class="formula-desc">比如：4/77 + 9% → 160+160</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">五度及以上盖白发</div>
+                    <div class="formula-desc">用13/系列 + 3/0 + 9%（12%）</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">五度以下盖白发</div>
+                    <div class="formula-desc">7/系列 + 3/0 + 9%（6%）</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">五度粉棕盖白发</div>
+                    <div class="formula-desc">13/55（or13-58）+ 0/45 + 0/66 + 3/0 + 0/00（粗硬的加）+12%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-cover-white" style="width: 85%"></div>
+                    </div>
+                    <div class="formula-desc">150+（10-15）+5+（10-15）+（15-20）+12%</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">五度棕盖白发</div>
+                    <div class="formula-desc">13/cb + 3/0 + 0/00 + 9%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-cover-white" style="width: 90%"></div>
+                    </div>
+                    <div class="formula-desc">160+15+10+185</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 冷棕 -->
+        <div class="color-item">
+            <input type="checkbox" id="cold-brown" class="color-toggle">
+            <label for="cold-brown" class="color-header">
+                <div class="color-swatch swatch-cold-brown"></div>
+                <div class="color-name">冷棕</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质：黑发</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发根配方</div>
+                    <div class="formula-desc">8/11 + jma + 0/28 + 9%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-cold-brown" style="width: 80%"></div>
+                    </div>
+                    <div class="formula-desc">80:10:5+95</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">发梢配方</div>
+                    <div class="formula-desc">8/11 + jma + 0/28 +（9%+12）</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-cold-brown" style="width: 85%"></div>
+                    </div>
+                    <div class="formula-desc">160:10:5:175</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 西柚色 -->
+        <div class="color-item">
+            <input type="checkbox" id="grapefruit" class="color-toggle">
+            <label for="grapefruit" class="color-header">
+                <div class="color-swatch swatch-grapefruit"></div>
+                <div class="color-name">西柚色（粉橙色）</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质：漂到7.5-9度</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">7.5-8度配方</div>
+                    <div class="formula-desc">9/55 + 0/43 + 3%（6%）+ 护发素</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-grapefruit" style="width: 65%"></div>
+                    </div>
+                    <div class="formula-desc">100:10:50:3倍（稀释）</div>
+                </div>
+                
+                <div class="formula-item">
+                    <div class="formula-title">8.5-9度配方</div>
+                    <div class="formula-desc">9/55 + 0/43 + 3%（6%）+ 护发素</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-grapefruit" style="width: 60%"></div>
+                    </div>
+                    <div class="formula-desc">90:30:50:3倍（稀释）</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 棕青冷色 -->
+        <div class="color-item">
+            <input type="checkbox" id="brown-green" class="color-toggle">
+            <label for="brown-green" class="color-header">
+                <div class="color-swatch swatch-brown-green"></div>
+                <div class="color-name">棕青冷色（色板上6/2颜色）</div>
+                <div class="toggle-icon">▼</div>
+            </label>
+            <div class="color-content">
+                <p class="color-base">发质要求；退色一遍，6.5度左右</p>
+                <p class="color-base">褪色完不均匀先打底：13/cb + 8/43 + 9% → 100:10:50 或者7/77 + 8/43 + 9%</p>
+                
+                <div class="formula-item">
+                    <div class="formula-title">配方比例</div>
+                    <div class="formula-desc">6/11 + 5/77 + jma + 5/0 + 6%</div>
+                    <div class="ratio-bar">
+                        <div class="ratio-fill fill-brown-green" style="width: 80%"></div>
+                    </div>
+                    <div class="formula-desc">160:80:10:10+260</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>专业染发配方色卡集</p>
+        <p>信息图 By @一泽</p>
+    </div>
+</body>
+</html>
